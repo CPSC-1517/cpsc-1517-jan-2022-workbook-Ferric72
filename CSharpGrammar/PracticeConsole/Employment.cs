@@ -91,8 +91,9 @@ namespace PracticeConsole.Data
         //the system manages the internal storage for the accessor and
         //  mutator
         //there is NO additional logic applied to the data value
-        public int Level { get; set; }
 
+        public int Level { get; set; }
+        
         //this property Years could be coded either as a fully implemented
         //  property or an auto-implemented property
         public double Years
@@ -102,8 +103,85 @@ namespace PracticeConsole.Data
         }
 
         //constructors
+        //purpose is to initialize the physical object (instance) during
+        //  its creation
+        //the result of creation is to ensure that the coder gets an
+        //  instance in a known state
+        //if your class definition has NO constructor coded, then the data
+        //  members / auto implemented properties are set to the C# default
+        //  data type value
+        //You can code one or more constructors in your class definition
+        //IF YOU CODE A CONSTRUCTOR FOR THE CLASS, YOU ARE RESPONSIBLE FOR
+        //  ALL CONSTRUCTORS USED BY THE CLASS!!!
+        //generally, if you are going to code your own constructor(s), you
+        //  code two types
+        //  Default: this constructor does NOT take in any parameters (it
+        //      mimics the default system constructor)
+        //  Greedy: this constructor has a list of parameters, for each
+        //      property, declared for incoming data
+        //
+        //syntax: accesstype classname([list of parameters]) {constructor
+        //  body}
+        //IMPORTANT: the constructor does NOT have a return datatype (unlike
+        //  a method)
+        //  You do NOT call a constructor directly, called using the new
+        //      operator (the keyword: new)
+        //
+        //Default constructor
+        public Employment()
+        {
+            //constructor body
+            //a) empty
+            //b) you COULD assign literal values to your properties with
+            //      this constructor
+            Level = 1;
+            Title = "Unknown";
+        }
 
+        //Greedy constructor
+        public Employment(string title, int level, double years)
+        {
+            //constructor body
+            //a) a parameter for each property
+            //b) you COULD do validation within the constructor instead of
+            //  within the property
+            //c) validation for public readonly members
+            //  validation for a property with a private set
+            Title = title;
+            Level = level;
+            Years = years;
+        }
 
-        //Behaviours
+        //constructors can be made for just one or more properties, but
+        //  this can lead to too many constructors, so usually you make
+        //  one greedy constructor asking for all properties
+
+        //Behaviours (aka methods)
+        //Behaviours are no different than methods elsewhere
+
+        //Syntax: accesstype [static] returndatatype BehaviourName([list
+        // of parameters])
+        //          { code body }
+
+        //there may be times you wish to obtain all the data in your
+        //  instance all at once for display
+        //generally to accomplish this, your class overrides the .ToString()
+        //  method of classes
+        public override string ToString()
+        {
+            //comma separated value list (csv)
+            return $"{Title},{Level},{Years}";
+        }
+
+        public void SetEmployeeResponsibilityLevel(int level)
+        {
+            //you could do validation within this method to ensure
+            //  acceptable value
+            if (level < 0)
+            {
+                throw new Exception("Responsibility level must be positive");
+            }
+            Level = level;
+        }
     }
 }
