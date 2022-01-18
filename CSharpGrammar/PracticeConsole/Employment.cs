@@ -92,7 +92,9 @@ namespace PracticeConsole.Data
         //  mutator
         //there is NO additional logic applied to the data value
 
-        public int Level { get; set; }
+        //using an enum for this field will AUTOMATICALLY restrict the
+        //  values this property can contain
+        public SupervisoryLevel Level { get; set; }
         
         //this property Years could be coded either as a fully implemented
         //  property or an auto-implemented property
@@ -134,12 +136,12 @@ namespace PracticeConsole.Data
             //a) empty
             //b) you COULD assign literal values to your properties with
             //      this constructor
-            Level = 1;
+            Level = SupervisoryLevel.TeamMember;
             Title = "Unknown";
         }
 
         //Greedy constructor
-        public Employment(string title, int level, double years)
+        public Employment(string title, SupervisoryLevel level, double years)
         {
             //constructor body
             //a) a parameter for each property
@@ -173,7 +175,7 @@ namespace PracticeConsole.Data
             return $"{Title},{Level},{Years}";
         }
 
-        public void SetEmployeeResponsibilityLevel(int level)
+        public void SetEmployeeResponsibilityLevel(SupervisoryLevel level)
         {
             //you could do validation within this method to ensure
             //  acceptable value
