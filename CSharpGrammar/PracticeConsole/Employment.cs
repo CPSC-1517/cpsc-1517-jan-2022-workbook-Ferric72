@@ -100,8 +100,15 @@ namespace PracticeConsole.Data
         //  property or an auto-implemented property
         public double Years
         {
-            get { return _Years; } //this is what happens in the auto-
-            set { _Years = value; }//implemented properties
+            get { return _Years; } 
+            set
+            {
+                if (!Utilities.IsPositve(value))
+                {
+                    throw new ArgumentNullException("Years cannot be a negative value.");
+                }
+                _Years = value;
+            }
         }
 
         //constructors
