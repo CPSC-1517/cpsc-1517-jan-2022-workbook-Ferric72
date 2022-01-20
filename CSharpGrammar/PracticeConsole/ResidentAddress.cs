@@ -54,5 +54,11 @@ namespace PracticeConsole.Data
         //note that no "default" constructor was created because I wish
         //  the program to assign the address with all necessary data
         //  at creation time.
+
+        public override string ToString()
+        {
+            return $"{Number}, {Address1}, {Address2}, {Unit}, {City}," +
+                $"{ProvinceState}";
+        }
     }
 }

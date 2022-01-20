@@ -71,7 +71,7 @@ namespace PracticeConsole.Data
                 if(string.IsNullOrWhiteSpace(value))
                 {
                     throw new ArgumentNullException("Title is a required" +
-                        "piece of data.");
+                        " piece of data.");
                 }
 
                 //data is considered valid
