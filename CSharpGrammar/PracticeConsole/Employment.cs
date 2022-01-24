@@ -50,7 +50,7 @@ namespace PracticeConsole.Data
             get
             {
                 //accessor
-                //the get "method" wil return the contents of a data
+                //the get "method" will return the contents of a data
                 //  field or fields as an expression
                 return _Title;
             }
