@@ -20,8 +20,11 @@ ResidentAddress Address = CreateAddress();
 
 //create a Person
 Person Me = CreatePerson(Job, Address);
-if (Me != null)
-DisplayPerson(Me);
+/*if (Me != null)
+    DisplayPerson(Me);
+*/
+
+ArrayReview(Me);
 
 static void DisplayString(string text)
 {
@@ -32,9 +35,41 @@ static void DisplayPerson(Person person)
 {
     DisplayString($"{person.FirstName} {person.LastName}");
     DisplayString($"{person.Address.ToString()}");
-    foreach(var emp in person.EmploymentPositions)
+
+    //in our example, the Person constructor ensures that EmploymentPosition
+    //  exists (List was declared); this makes the need for the null moot
+    if (person.EmploymentPositions != null)
     {
-        DisplayString($"{emp.ToString()}");
+        //this loop is a forward moving pre-test loop
+        //what it checks for is "is there another link element to look at?"
+        //  if Yes: use the element
+        //  if No: exit loop
+        foreach (var emp in person.EmploymentPositions)
+        {
+            DisplayString($"{emp.ToString()}");
+        }
+
+        //a List<T> can actually be manipulated like an array
+        //is a pre-test loop BUT does not check for a missing List<T>
+
+
+        for (int i = 0; i < person.EmploymentPositions.Count; i++)
+        {
+            DisplayString(person.EmploymentPositions[i].ToString());
+        }
+
+        //as a do while loop
+
+        if (person.EmploymentPositions.Count > 0)
+        {
+            int x = 0;
+            //is a post-test loop
+            do
+            {
+                DisplayString(person.EmploymentPositions[x].ToString());
+                x++;
+            } while (x < person.EmploymentPositions.Count);
+        }
     }
 }
 
@@ -135,4 +170,92 @@ Person CreatePerson(Employment job, ResidentAddress address)
         DisplayString("Run time error: " + ex.Message);
     }
     return thePerson;
+}
+
+void ArrayReview(Person person)
+{
+    //Declare a single-dimentional array size 5
+    //In this declaration the value in each element is set to the
+    //  datatype's default (numeric - > 0)
+    int [] array1 = new int [5]; //one can use a literal for the size
+    //PrintArray(array1, 5, "declare int array size 5");
+
+    //Declare and set array elements
+    int[] array2 = new int [] {1, 2, 4, 8, 16};
+    //PrintArray(array2, 5, "declare int array size using a list of" +
+    //    " supplied values");
+
+    //alternate syntax
+    //size of the array can be determined using the method .Count() of the
+    //  array collection using the inherited class IEnumerable (Array
+    //  class derived from the base class IEnumerable which is derived
+    //  from its base class Collections)
+    //size of the array can also be determined using the read-only
+    //  property (just has a get{}) of the Array class called .Length
+
+    int[] array3 = { 1, 3, 6, 12, 24};
+    PrintArray(array3, array3.Count(), "declare int array with just a list of" +
+        " supplied values");
+
+    //Traversing to an array altering elements
+    //remember thta the array when declared is physically created in
+    //  memory
+    //each element (cell) has a given value, even if it is the datatype
+    //  default
+    //when you are "adding" to an array, you are really just altering
+    //  the element's value
+
+    //logical counter for your array sizeto indicate the "valid meaningful"
+    //   values for processing
+    int lsarray1 = 0;
+    int lsarray2 = array2.Count(); //IEnumerable method
+    int lsarray3 = array3.Length;  //Array read-only property
+
+    Random random = new Random();
+    int randomvalue = 0;
+    while (lsarray1 < array1.Length)
+    {
+        randomvalue = random.Next(0,100);
+        array1[lsarray1] = randomvalue;
+        lsarray1++;
+    }
+    PrintArray(array1, lsarray1, "array loaded with random values");
+
+    //Alter an element randomly selected to a new value
+    int arrayposition = random.Next(0,array1.Length);
+    randomvalue = random.Next(0, 100);
+    array1[arrayposition] = randomvalue;
+    PrintArray(array1, lsarray1, "randomly replace an array value");
+
+    //Remove an element's value from an array
+    //move all array elements in positions greater than the removed
+    //  element's position, "up one"
+    //Assume we are removing element 3 (index 2)
+    int logicalelementnumber = 3; //index of value is logicalposition - 1
+    for (int index = --logicalelementnumber; index < array1.Length - 1; index++)
+    {
+        array1[index] = array1[index + 1];
+    }
+    lsarray1--;
+    array1[array1.Length - 1] = 0;
+    PrintArray(array1, array1.Length, "remove an array value");
+}
+
+void PrintArray(int [] array, int size, string text)
+{
+    Console.WriteLine($"\n{text}\n");
+    //item represents an element in the array
+    //array is your collection (array [])
+    //processing will be start (0) to end (size-1)
+    foreach(var item in array)
+    {
+        Console.Write($"{item},");
+    }
+    Console.WriteLine("\n");
+    //using the for loop this display outputs the array back to front
+    for (int i = size -1; i >= 0; i--)
+    {
+        Console.Write($"{array[i]},");
+    }
+    Console.WriteLine("\n");
 }
