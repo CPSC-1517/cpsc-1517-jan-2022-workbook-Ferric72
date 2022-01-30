@@ -84,7 +84,7 @@ Employment CreateJob()
         DisplayString($"good job {Job.ToString()}");
        
         Job = new Employment("Boss", SupervisoryLevel.Supervisor, 5.5);
-        DisplayString($"greedy good job {Job.ToString}");
+        DisplayString($"greedy good job {Job.ToString()}");
 
         //checking exceptions
         //bad data: title
