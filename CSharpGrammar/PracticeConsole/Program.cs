@@ -27,7 +27,14 @@ Person Me = CreatePerson(Job, Address);
 //ArrayReview(Me);
 
 string pathname = CreateCSVFile();
-ReadCSVFile(pathname);
+
+Console.WriteLine("\n Results of parsing the incoming CSV Employment data file");
+List<Employment> Jobs = ReadCSVFile(pathname);
+Console.WriteLine("\n Results of good parsed incoming CSV Employment data file");
+foreach (Employment employment in Jobs)
+{
+    DisplayString(employment.ToString());
+}
 
 static void DisplayString(string text)
 {
@@ -291,6 +298,13 @@ string CreateCSVFile()
             csvLines.Add(item.ToString());
         }
 
+        //TESTING FOR BAD INPUT CSV DATA
+
+        csvLines.Add($"{SupervisoryLevel.Owner},4.5"); //missing value error
+        csvLines.Add($",{SupervisoryLevel.DepartmentHead},4.5"); //missing text error on title
+        csvLines.Add($"Bad Years, {SupervisoryLevel.Owner},Bob"); //non-numeric value for years
+        csvLines.Add($"Bad Years, {SupervisoryLevel.Owner},-4.5"); //negative value for years
+
         //write to a csv file requires the System.IO namespaces
         //writing a file will default the output to the folder that contains
         //  the executing .exe file
@@ -313,8 +327,9 @@ string CreateCSVFile()
     return Path.GetFullPath(pathname);
 }
 
-void ReadCSVFile(string pathname)
+List<Employment> ReadCSVFile(string pathname)
 {
+    List<Employment> inputList = new List<Employment>();
     //Reading a CSV file is similar to writing. One can read ALL lines
     //  at one time. There is no need for a StreamReader. One concern
     //  would be the size of the expected input file. If it's a file
@@ -323,10 +338,43 @@ void ReadCSVFile(string pathname)
     try
     {
         string[] csvFileInput = File.ReadAllLines(pathname);
-        Console.WriteLine("\n\nContents of CSV Employment file:\n");
-        foreach (var item in csvFileInput)
+
+        //create a resusable instance of Employment
+        Employment job = null;
+        //item represents a line (record) in the incoming data
+        //attempt to process EACH line whether any of the incoming lines
+        //  have an error or not
+        //THUS you will NEED to manage the errors on the individual line
+        //  as you process that line AND be able to continue to the next
+        //  line (we changed item to line in foreach)
+        foreach (var line in csvFileInput)
         {
-            Console.WriteLine(item);
+            try
+            {
+                bool returnedBool = Employment.TryParse(line, out job);
+                //returned value is ALREADY a boolean value: it is already
+                //  TRUE or FALSE
+                //there is no need to use a relative operator condition to
+                //  test the field
+                //      (returnedBool == true) is NOT NECESSARY
+                //a relative operator condition RESOLVES to True or False
+                if (returnedBool)
+                {
+                    inputList.Add(job);
+                }
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine($"Format error: {ex.Message}");
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine($"Argument invalid error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Processing Parse error: {ex.Message}");
+            }
         }
     }
     catch (IOException ex)
@@ -337,4 +385,5 @@ void ReadCSVFile(string pathname)
     {
         Console.WriteLine(ex.Message);
     }
+    return inputList;
 }
