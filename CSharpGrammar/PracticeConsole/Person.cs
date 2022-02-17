@@ -106,6 +106,14 @@ namespace PracticeConsole.Data
         //  the program is to use the greedy constructor when the class
         //  instance is created
 
+        //NOTE: FOR READING JSON FILES!!!!!!!!!
+
+        //your constructor parameter names MUST MATCH your property variable names.
+        //the order in which your properties ar physically coded in the class, does NOT
+        //  does not affect the reading
+        //the parameters are NOT case sensitive
+        //the order of the parameters in the constructor does not affect the reading
+
         public Person(string firstname, string lastname,
                         List<Employment> employmentpositions,
                         ResidentAddress address)
@@ -122,7 +130,10 @@ namespace PracticeConsole.Data
                 //  empty List<T>
                 EmploymentPositions = new List<Employment>();
             }
-            Address = address;
+            //IF your parameter name is identical to the property name, to have your
+            //  code work appropriately, place the key word "this." in front of the
+            //  property reference.
+            this.Address = address;
         }
 
         // because of private sets, only these methods can be used to
