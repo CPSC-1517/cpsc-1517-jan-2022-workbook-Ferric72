@@ -15,7 +15,9 @@ namespace WebApp.Pages.Samples
         [BindProperty]
         public string Comments { get; set; }
 
-        [TempData]
+        //Annotation TempData is required IF you are processing multiple requests
+        //      (OnPost followed by OnGet) to retain data within the property
+        //[TempData]
         public string Feedback { get; set; }
         public void OnGet()
         {
@@ -34,6 +36,24 @@ namespace WebApp.Pages.Samples
             //logic that you wish to accomplish should be isolated to the actions
             //  desired for the button
             Feedback = $"Number {Num}, Course {FavouriteCourse}, Comments {Comments}";
+        }
+
+        public void OnPostA()
+        {
+            //processes the OnPost request of the form (method="post")
+            //this method is called due to the helper-tag on the form button
+            //the "string" used on the helper-tag asp-page-handler="string" is
+            //  added to the OnPost method name
+            Feedback = $"Button A was pressed";
+        }
+
+        public void OnPostB()
+        {
+            //processes the OnPost request of the form (method="post")
+            //this method is called due to the helper-tag on the form button
+            //the "string" used on the helper-tag asp-page-handler="string" is
+            //  added to the OnPost method name
+            Feedback = $"Button B was pressed";
         }
     }
 }
