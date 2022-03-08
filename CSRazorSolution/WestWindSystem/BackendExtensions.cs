@@ -37,6 +37,7 @@ namespace WestWindSystem
             {
                 //get the dbcontext class that has been registered
                 var context = serviceProvider.GetService<WestWindContext>();
+
                 //create an instance of the service class (BuildVersionServices) supplying
                 //  the context reference to the service class
                 //return the service class instance
