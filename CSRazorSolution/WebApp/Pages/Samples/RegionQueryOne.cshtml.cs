@@ -27,17 +27,14 @@ namespace WebApp.Pages.Samples
         //this is bond to the input control via asp-for
         //this is a two way binding out and in
         //data is move out and in FOR YOU AUTOMATICALLY
-        [BindProperty]
+        //SupportsGet = true will allow this property to be matched to a routing
+        //  parameter of the same name.
+        [BindProperty(SupportsGet = true)]
         public int regionid { get; set; }
 
         public Region regionInfo { get; set; }
 
         public void OnGet()
-        {
-            
-        }
-
-        public void OnPost()
         {
             if (regionid > 0)
             {
@@ -51,10 +48,33 @@ namespace WebApp.Pages.Samples
                     FeedbackMessage = $"ID: {regionInfo.RegionId} Descripton {regionInfo}";
                 }
             }
-            else
+        }
+
+        //generic fallback post handler (eg. if you spell your OnPostFetch wrong, it will default to this one)
+        public void OnPost()
+        {
+            FeedbackMessage = "WARMING!!! No OnPost page handler found. Execution default to the coded OnPost";
+        }
+
+        //specific method to use in conjunction with asp-page-handler="xxx"
+        public IActionResult OnPostFetch()
+        {
+            if (regionid < 1)
             {
                 FeedbackMessage = "Required: Region id is a non-zero positive whole number.";
             }
+            //the receiving "regionid" is the routing parameter
+            //the sending "regionid" is a BindProperty field
+            return RedirectToPage(new {regionid = regionid});
+        }
+
+        //specific method to use in conjunction with asp-page-handler="xxx"
+        public IActionResult OnPostClear()
+        {
+            FeedbackMessage = "";
+            //regionid = 0;
+            ModelState.Clear();
+            return RedirectToPage(new {regionid = (int?)null});
         }
     }
 }
