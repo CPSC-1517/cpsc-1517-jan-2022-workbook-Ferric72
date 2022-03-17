@@ -1,3 +1,4 @@
+#nullable disable
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -38,14 +39,14 @@ namespace WebApp.Pages.Samples
         {
             if (regionid > 0)
             {
-                regionInfo = _regionServices.Region_GetById(regionid);
+                regionInfo = _regionServices.Region_GetByID(regionid);
                 if (regionInfo == null)
                 {
                     FeedbackMessage = "Region id is not valid. No such region on file.";
                 }
                 else
                 {
-                    FeedbackMessage = $"ID: {regionInfo.RegionId} Descripton {regionInfo}";
+                    FeedbackMessage = $"ID: {regionInfo.RegionID} Descripton: {regionInfo.RegionDescription}";
                 }
             }
         }
@@ -56,7 +57,7 @@ namespace WebApp.Pages.Samples
             FeedbackMessage = "WARMING!!! No OnPost page handler found. Execution default to the coded OnPost";
         }
 
-        //specific method to use in conjunction with asp-page-handler="xxx"
+        //specific post method to use in conjunction with asp-page-handler="xxx"
         public IActionResult OnPostFetch()
         {
             if (regionid < 1)
@@ -68,7 +69,7 @@ namespace WebApp.Pages.Samples
             return RedirectToPage(new {regionid = regionid});
         }
 
-        //specific method to use in conjunction with asp-page-handler="xxx"
+        //specific post method to use in conjunction with asp-page-handler="xxx"
         public IActionResult OnPostClear()
         {
             FeedbackMessage = "";

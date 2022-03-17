@@ -31,10 +31,10 @@ namespace WestWindSystem.BLL
         //  the web page
         //this query will return a single instance of the entity Region (sql table Region)
         //  which matches the incoming argument value
-        public Region Region_GetById(int regionid)
+        public Region Region_GetByID(int regionid)
         {
             Region info = _context.Regions
-                            .Where(acollectionrow => acollectionrow.RegionId == regionid)
+                            .Where(acollectionrow => acollectionrow.RegionID == regionid)
                             .FirstOrDefault();
             return info;
         }
