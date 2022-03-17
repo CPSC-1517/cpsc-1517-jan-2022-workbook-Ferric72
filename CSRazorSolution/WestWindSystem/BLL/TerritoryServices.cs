@@ -31,7 +31,7 @@ namespace WestWindSystem.BLL
         public List<Territory> GetByPartialDescription(string partialdescription)
         {
             IEnumerable<Territory> info = _context.Territories
-                            .Where(x => x.TerritoryDescription.Equals(partialdescription))
+                            .Where(x => x.TerritoryDescription.Contains(partialdescription))
                             .OrderBy(x => x.TerritoryDescription);
             return info.ToList();
         }
