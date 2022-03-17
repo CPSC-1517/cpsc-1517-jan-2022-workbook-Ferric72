@@ -38,6 +38,19 @@ namespace WestWindSystem.BLL
                             .FirstOrDefault();
             return info;
         }
+
+        //get all the records of the sql Region table
+        //return as a List<T>
+        public List<Region> Region_List()
+        {
+            //Linq querys use two generic collection types
+            //  IQueryable this is the data collection returned from sql
+            //  IEnumberable this is the data collection in local memory
+            //You can convert either of these collections to a List<T> using .ToList()
+            IEnumerable<Region> info = _context.Regions
+                                        .OrderBy(x => x.RegionDescription); //OrderByDescending for opposite order sort
+            return info.ToList();
+        }
         #endregion
     }
 }
