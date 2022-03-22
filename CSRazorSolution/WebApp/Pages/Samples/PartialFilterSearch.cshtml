@@ -41,7 +41,28 @@
 					@foreach (var item in Model.TerritoryInfo)
 					{
 						<tr>
-							<td>@item.TerritoryID</td>
+							<td>
+							@*
+								this example will send the TerritoryID to another page
+								use the anchor tage to accomplish this task
+								the href page value MUST be referenced from the Pages folder
+								the value to be passed is attached to the end of the 
+									page reference
+								In this example, the value will be passed to the receiving
+									page as a routing parameter
+								You CAN send multiple values to the new page
+								The receiving page MUST have the same number of routing parameters
+									as those passed AND the order of the routing parameters
+									is important
+								Page reference syntax: /pathname/value[/value/...] --remember that in syntax notation [] square brakets indicate optional syntax. Do NOT include square brackets when coding
+								The text of your anchor tag does NOT need to be the value
+									that is being passed
+							*@
+							<a href="/Samples/ReceivingPage/@item.TerritoryID">
+								Passing this value: @item.TerritoryID
+							</a>
+							@item.TerritoryID
+							</td>
 							<td>@item.TerritoryDescription</td>
 							<td><select disabled="true">
 									@foreach (var region in Model.RegionList)
