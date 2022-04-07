@@ -78,6 +78,10 @@ namespace WestWindSystem.BLL
         //  page (PageModel call statement)
         public int Product_AddProduct(Product item)
         {
+            if (item == null)
+            {
+                throw new ArgumentNullException("item is null");
+            }
             //this is an example of an optional validation of incoming data
             Product exists = _context.Products
                                 .Where(x => x.ProductName.Equals(item.ProductName) &&
@@ -103,6 +107,8 @@ namespace WestWindSystem.BLL
             _context.Products.Add(item);
 
             //commit the LOCAL data to the database
+            //IF there are validation annotations on your Entity
+            //  they will be executed during the SaveChanges
             _context.SaveChanges();
 
             //AFTER the commit, your pkey value will NOW be available to you
