@@ -137,6 +137,13 @@ namespace WebApp.Pages.Samples
                     return Page();
                 }
             }
+            else
+            {
+                //if you are using ModelState AND are in need of re-populating
+                //  lists (for select or group of radio-buttons, etc)
+                //  you will need to re-obtain the lists
+                PopulateLists();
+            }
             return Page();
         }
 
@@ -169,6 +176,13 @@ namespace WebApp.Pages.Samples
                     return Page();
                 }
             }
+            else
+            {
+                //if you are using ModelState AND are in need of re-populating
+                //  lists (for select or group of radio-buttons, etc)
+                //  you will need to re-obtain the lists
+                PopulateLists();
+            }
             return Page();
         }
 
@@ -178,6 +192,7 @@ namespace WebApp.Pages.Samples
             {
                 try
                 {
+                    //this is a logical delete (really just update of active/inactive attribute)
                     int rowaffected = _productServices.Product_DeleteProduct(ProductInfo);
                     if (rowaffected > 0)
                     {
@@ -201,10 +216,15 @@ namespace WebApp.Pages.Samples
                     return Page();
                 }
             }
+            else
+            {
+                //if you are using ModelState AND are in need of re-populating
+                //  lists (for select or group of radio-buttons, etc)
+                //  you will need to re-obtain the lists
+                PopulateLists();
+            }
             return Page();
         }
-
-
 
         private Exception GetInnerException(Exception ex)
         {

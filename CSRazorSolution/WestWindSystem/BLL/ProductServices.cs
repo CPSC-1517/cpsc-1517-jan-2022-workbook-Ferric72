@@ -125,15 +125,26 @@ namespace WestWindSystem.BLL
             //for an update, you MUST have the pkey value on your instance
             //if not, it will not work.
 
+            // ***** WARNING *****
+            //can cause PROBLEMS when being used with EntityEntry<T> processing
             //this technique returns an instance (object)
             //Product exists = _context.Products
             //                    .Where(x => x.ProductID == item.ProductID)
             //                    .FirstOrDefault();
+            //one: if (exists == null)
+            //{
+            //  throw new Exception($"{item.ProductName} with a size of {item.QuantityPerUnit}" +
+            //      $" from the selected supplier is not on file.");
+            //}
+            //DEPENDING on which technique you use, your error test will be different
+
+            // ***** BETTER *****
+            //this does NOT actually return an instance and thus has NO CONFLICT
+            //  with using EntityEntry<T>
             //another way to do the same query
             //this technique doe the search BUT returns only a boolean of success
             bool exists = _context.Products.Any(x => x.ProductID == item.ProductID);
-            //DEPENDING on which technique you use, your error test will be different
-            //one: if (exists == null) {...}
+            
             if (!exists)
             {
                 throw new Exception($"{item.ProductName} with a size of {item.QuantityPerUnit}" +

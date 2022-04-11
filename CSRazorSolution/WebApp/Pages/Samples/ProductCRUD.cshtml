@@ -61,7 +61,16 @@
     *@
     <label>
         ID:
-        <input type="text" asp-for="ProductInfo.ProductID" readonly data-val="false" />
+        @if(Model.ProductInfo == null)
+        {
+            <input type="text" asp-for="ProductInfo.ProductID" readonly data-val="false"
+            value="0"/> 
+        }
+        else
+        {
+            <input type="text" asp-for="ProductInfo.ProductID" readonly data-val="false"/>
+        }
+        <span asp-validation-for="ProductInfo.ProductID"></span>
     </label>
     <label>
         Name:
